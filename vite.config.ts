@@ -8,8 +8,20 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-    build: {
-    outDir: 'dist'
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Separate React and React DOM into a vendor chunk
+          'vendor': ['react', 'react-dom'],
+          // Example for other installed libraries
+          'charting': ['chart.js', 'react-chartjs-2'],
+          // lodash example
+          'lodash': ['lodash'],
+        },
+      }
+    },
+    chunkSizeWarningLimit: 1000, 
   }
 });
 // 
