@@ -14,11 +14,11 @@ interface SidebarProps {
 }
 
 const navItems = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/transactions', icon: Receipt, label: 'Transactions' },
-  { to: '/categories', icon: Tag, label: 'Categories' },
-  { to: '/analytics', icon: TrendingUp, label: 'Analytics' },
-  { to: '/settings', icon: Settings, label: 'Settings' },
+  { to: '/app/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/app/transactions', icon: Receipt, label: 'Transactions' },
+  { to: '/app/categories', icon: Tag, label: 'Categories' },
+  { to: '/app/analytics', icon: TrendingUp, label: 'Analytics' },
+  { to: '/app/settings', icon: Settings, label: 'Settings' },
 ];
 
 export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {

@@ -24,7 +24,7 @@ export const Login = () => {
         showToast(error.message, 'error');
       } else {
         showToast('Welcome back!', 'success');
-        navigate('/dashboard');
+        navigate('/app/dashboard');
       }
     } catch (error: any) {
       showToast(error.message || 'Login failed', 'error');

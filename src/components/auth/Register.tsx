@@ -37,7 +37,7 @@ export const Register = () => {
         showToast(error.message, 'error');
       } else {
         showToast('Account created successfully!', 'success');
-        navigate('/dashboard');
+        navigate('/app/dashboard');
       }
     } catch (error: any) {
       showToast(error.message || 'Registration failed', 'error');
