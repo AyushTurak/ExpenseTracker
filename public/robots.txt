@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Sitemap: https://expense-tracker-olive-psi.vercel.app/sitemap.xml
+
+# Disallow access to admin and private routes
+Disallow: /app/
+Disallow: /login
+Disallow: /register

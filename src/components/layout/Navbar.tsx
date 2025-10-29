@@ -25,7 +25,7 @@ export const Navbar = ({ onMenuToggle }: { onMenuToggle: () => void }) => {
             <Menu size={24} />
           </button>
 
-          <Link to="/dashboard" className="flex items-center gap-2">
+          <Link to="/app/dashboard" className="flex items-center gap-2">
             <div className="bg-blue-600 p-2 rounded-lg">
               <DollarSign className="w-6 h-6 text-white" />
             </div>
