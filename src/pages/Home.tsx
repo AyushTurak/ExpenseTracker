@@ -3,17 +3,43 @@ import { PublicNavbar } from '../components/layout/PublicNavbar';
 import { Footer } from '../components/layout/Footer';
 import { DollarSign, TrendingUp, PieChart, Shield, Smartphone, Download } from 'lucide-react';
 import { useEffect } from 'react';
+import { SEOHead } from '../components/ui/SEOHead';
 
 export const Home = () => {
   useEffect(() => {
-    document.title = 'ExpenseTracker - Smart Personal Finance Management';
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        'content',
-        'Take control of your finances with ExpenseTracker. Track expenses, analyze spending patterns, create budgets, and achieve your financial goals with our intuitive expense management tool.'
-      );
+    const structuredData = {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'ExpenseTracker',
+      description: 'Smart personal finance management and expense tracking application',
+      url: 'https://expense-tracker-olive-psi.vercel.app',
+      author: {
+        '@type': 'Person',
+        name: 'Ayush Turak',
+        email: 'ayushturak@gmail.com'
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'ExpenseTracker',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://expense-tracker-olive-psi.vercel.app/logo.png'
+        }
+      },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: 'https://expense-tracker-olive-psi.vercel.app/?search={search_term_string}',
+        'query-input': 'required name=search_term_string'
+      }
+    };
+
+    let script = document.querySelector('script[type="application/ld+json"]');
+    if (!script) {
+      script = document.createElement('script');
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
     }
+    script.textContent = JSON.stringify(structuredData);
   }, []);
 
   const features = [
@@ -41,6 +67,10 @@ export const Home = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
+      <SEOHead
+        title="ExpenseTracker - Smart Personal Finance Management"
+        description="Take control of your finances with ExpenseTracker. Track expenses, analyze spending patterns, create budgets, and achieve your financial goals with our intuitive expense management tool."
+      />
       <PublicNavbar />
 
       <main>

@@ -124,6 +124,30 @@ export const PrivacyPolicy = () => {
               browser preferences.
             </p>
 
+            <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Advertising and Third-Party Services</h2>
+            <p className="text-gray-700 leading-relaxed mb-6">
+              ExpenseTracker uses Google AdSense to display advertisements. Google AdSense may use cookies
+              and web beacons to collect information about your visits to this and other websites to provide
+              advertisements about goods and services of interest to you.
+            </p>
+            <p className="text-gray-700 leading-relaxed mb-6">
+              Google, as a third-party vendor, uses cookies to serve ads on our site. Google's use of the
+              DART cookie enables it to serve ads to our users based on their visit to our site and other
+              sites on the Internet. Users may opt out of the use of the DART cookie by visiting the Google
+              Ad and Content Network privacy policy at{' '}
+              <a href="https://policies.google.com/technologies/ads" className="text-blue-600 hover:text-blue-700" target="_blank" rel="noopener noreferrer">
+                https://policies.google.com/technologies/ads
+              </a>.
+            </p>
+            <p className="text-gray-700 leading-relaxed mb-6">
+              Third-party ad servers or ad networks may also use cookies, JavaScript, or web beacons in their
+              respective advertisements and links that appear on ExpenseTracker. These technologies are used
+              to measure the effectiveness of their advertising campaigns and to personalize advertising content.
+              ExpenseTracker has no access to or control over these cookies used by third-party advertisers.
+              You should consult the respective privacy policies of these third-party ad servers for more
+              information on their practices and for instructions on how to opt-out of certain practices.
+            </p>
+
             <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Children's Privacy</h2>
             <p className="text-gray-700 leading-relaxed mb-6">
               ExpenseTracker is not intended for individuals under the age of 18. We do not knowingly
