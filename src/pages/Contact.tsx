@@ -9,7 +9,9 @@ export const Contact = () => {
     email: '',
     subject: '',
     message: '',
+    _gotcha: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   useEffect(() => {
@@ -23,11 +25,44 @@ export const Contact = () => {
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitStatus('success');
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setTimeout(() => setSubmitStatus('idle'), 5000);
+
+    if (formData._gotcha) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('https://formspree.io/f/xanygkjz', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '', _gotcha: '' });
+        setTimeout(() => setSubmitStatus('idle'), 10000);
+      } else {
+        setSubmitStatus('error');
+        setTimeout(() => setSubmitStatus('idle'), 5000);
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus('idle'), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -67,10 +102,10 @@ export const Contact = () => {
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Email Us</h3>
                 <a
-                  href="mailto:ayushturak@gmail.com"
+                  href="mailto:turakayush@gmail.com"
                   className="text-blue-600 hover:text-blue-700 font-medium"
                 >
-                  ayushturak@gmail.com
+                  turakayush@gmail.com
                 </a>
               </div>
 
@@ -102,6 +137,17 @@ export const Contact = () => {
                 <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
                   <p className="text-green-800 font-medium">
                     Thank you for your message! We'll get back to you soon.
+                  </p>
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-800 font-medium">
+                    Oops! Something went wrong. Please try again or email us directly at{' '}
+                    <a href="mailto:turakayush@gmail.com" className="underline">
+                      turakayush@gmail.com
+                    </a>
                   </p>
                 </div>
               )}
@@ -179,13 +225,35 @@ export const Contact = () => {
                   ></textarea>
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full md:w-auto px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
-                >
-                  <Send className="w-5 h-5" />
-                  Send Message
-                </button>
+                <input
+                  type="text"
+                  name="_gotcha"
+                  value={formData._gotcha}
+                  onChange={handleChange}
+                  style={{ display: 'none' }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+
+                <div className="flex flex-col sm:flex-row gap-4 items-center">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <Send className="w-5 h-5" />
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                  </button>
+                  <span className="text-sm text-gray-500">
+                    or{' '}
+                    <a
+                      href="mailto:turakayush@gmail.com?subject=Contact from ExpenseTracker"
+                      className="text-blue-600 hover:text-blue-700 font-medium underline"
+                    >
+                      email us directly
+                    </a>
+                  </span>
+                </div>
               </form>
             </div>
           </div>

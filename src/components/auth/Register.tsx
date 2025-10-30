@@ -4,7 +4,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
-import { DollarSign } from 'lucide-react';
+import { Modal } from '../ui/Modal';
+import { DollarSign, Mail } from 'lucide-react';
 
 export const Register = () => {
   const [name, setName] = useState('');
@@ -12,6 +13,7 @@ export const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
   const { signUp } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
@@ -36,8 +38,7 @@ export const Register = () => {
       if (error) {
         showToast(error.message, 'error');
       } else {
-        showToast('Account created successfully!', 'success');
-        navigate('/app/dashboard');
+        setShowVerificationModal(true);
       }
     } catch (error: any) {
       showToast(error.message || 'Registration failed', 'error');
@@ -118,6 +119,42 @@ export const Register = () => {
             </p>
           </div>
         </div>
+
+        <Modal
+          isOpen={showVerificationModal}
+          onClose={() => {
+            setShowVerificationModal(false);
+            navigate('/app/dashboard');
+          }}
+          title="Check Your Email"
+          size="sm"
+        >
+          <div className="text-center space-y-4">
+            <div className="flex justify-center">
+              <div className="bg-blue-100 p-4 rounded-full">
+                <Mail className="w-12 h-12 text-blue-600" />
+              </div>
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900">
+              Verification Email Sent
+            </h3>
+            <p className="text-gray-600">
+              We've sent a verification email to <strong>{email}</strong>. Please check your inbox and click the verification link to activate your account.
+            </p>
+            <p className="text-sm text-gray-500">
+              Don't see the email? Check your spam folder.
+            </p>
+            <Button
+              onClick={() => {
+                setShowVerificationModal(false);
+                navigate('/app/dashboard');
+              }}
+              className="w-full"
+            >
+              Continue to Dashboard
+            </Button>
+          </div>
+        </Modal>
       </div>
     </div>
   );
