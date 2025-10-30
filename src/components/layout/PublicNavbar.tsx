@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { DollarSign, Menu, X } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 
 export const PublicNavbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { user } = useAuth();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -45,12 +47,21 @@ export const PublicNavbar = () => {
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/login"
-              className="ml-4 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Sign In
-            </Link>
+            {user ? (
+              <Link
+                to="/app/dashboard"
+                className="ml-4 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Go to Dashboard
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="ml-4 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
 
           <button
@@ -79,13 +90,23 @@ export const PublicNavbar = () => {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                to="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="mx-4 mt-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors text-center"
-              >
-                Sign In
-              </Link>
+              {user ? (
+                <Link
+                  to="/app/dashboard"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mx-4 mt-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors text-center"
+                >
+                  Go to Dashboard
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mx-4 mt-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors text-center"
+                >
+                  Sign In
+                </Link>
+              )}
             </div>
           </div>
         )}
