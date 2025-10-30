@@ -1,9 +1,11 @@
-export const formatCurrency = (amount: number): string => {
+export const formatCurrencyStatic = (amount: number): string => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
   }).format(amount);
 };
+
+export const formatCurrency = formatCurrencyStatic;
 
 export const formatDate = (date: string | Date): string => {
   return new Intl.DateTimeFormat('en-US', {

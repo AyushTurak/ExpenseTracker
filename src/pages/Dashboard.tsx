@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { transactionService } from '../services/transactionService';
 import { useToast } from '../contexts/ToastContext';
-import { formatCurrency, formatDate } from '../utils/formatters';
+import { useCurrency } from '../contexts/CurrencyContext';
+import { formatDate } from '../utils/formatters';
 import { Loader } from '../components/ui/Loader';
 import { TrendingUp, TrendingDown, Wallet, Receipt, ArrowRight } from 'lucide-react';
 import { QuickAddTransaction } from '../components/dashboard/QuickAddTransaction';
@@ -19,6 +20,7 @@ export const Dashboard = () => {
   const [recentTransactions, setRecentTransactions] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { showToast } = useToast();
+  const { formatCurrency } = useCurrency();
 
   const loadData = async () => {
     setIsLoading(true);
