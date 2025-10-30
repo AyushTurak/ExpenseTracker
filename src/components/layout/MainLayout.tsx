@@ -6,7 +6,7 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navbar onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
 
       <div className="flex">
