@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
+import { CurrencyProvider } from './contexts/CurrencyContext';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
 import { MainLayout } from './components/layout/MainLayout';
 import { Login } from './components/auth/Login';
@@ -26,7 +27,8 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <ToastProvider>
-          <Routes>
+          <CurrencyProvider>
+            <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/features" element={<Features />} />
             <Route path="/about" element={<About />} />
@@ -58,7 +60,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
-          </Routes>
+            </Routes>
+          </CurrencyProvider>
         </ToastProvider>
       </AuthProvider>
     </BrowserRouter>

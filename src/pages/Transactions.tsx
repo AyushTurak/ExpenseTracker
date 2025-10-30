@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { transactionService, TransactionFilters } from '../services/transactionService';
 import { categoryService } from '../services/categoryService';
 import { useToast } from '../contexts/ToastContext';
-import { formatCurrency, formatDate } from '../utils/formatters';
+import { useCurrency } from '../contexts/CurrencyContext';
+import { formatDate } from '../utils/formatters';
 import { Loader } from '../components/ui/Loader';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -23,6 +24,7 @@ export const Transactions = () => {
   const [editingTransaction, setEditingTransaction] = useState<any>(null);
   const [filters, setFilters] = useState<TransactionFilters>({});
   const { showToast } = useToast();
+  const { formatCurrency } = useCurrency();
 
   const pageSize = 10;
 

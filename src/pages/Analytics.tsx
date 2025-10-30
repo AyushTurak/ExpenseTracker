@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { analyticsService, MonthlyData, CategoryBreakdown } from '../services/analyticsService';
 import { useToast } from '../contexts/ToastContext';
+import { useCurrency } from '../contexts/CurrencyContext';
 import { Loader } from '../components/ui/Loader';
 import { Select } from '../components/ui/Select';
-import { formatCurrency } from '../utils/formatters';
 import { LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
@@ -16,6 +16,7 @@ export const Analytics = () => {
   const [categoryBreakdown, setCategoryBreakdown] = useState<CategoryBreakdown[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { showToast } = useToast();
+  const { formatCurrency } = useCurrency();
 
   useEffect(() => {
     loadAnalytics();

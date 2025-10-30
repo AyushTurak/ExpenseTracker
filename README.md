@@ -72,6 +72,18 @@ Generate PDF reports
 
 Filter data before export
 
+💱 Multi-Currency Support
+
+Choose from 5 major currencies (INR, USD, EUR, GBP, JPY)
+
+Real-time currency conversion with automatic formatting
+
+Persistent currency preference across sessions
+
+Instant visual feedback when changing currency
+
+All amounts displayed in selected currency throughout the app
+
 🧩 Tech Stack
 Layer	Technologies
 Frontend	React 18, TypeScript
@@ -191,6 +203,7 @@ src/
 │   └── ui/                # Reusable UI components
 ├── contexts/
 │   ├── AuthContext.tsx    # Authentication state
+│   ├── CurrencyContext.tsx # Currency management & conversion
 │   └── ToastContext.tsx   # Toast notifications
 ├── lib/
 │   └── supabase.ts        # Supabase client config
@@ -272,3 +285,100 @@ Ensure you:
 Add environment variables on your host
 
 Configure redirects for client-side routing
+
+💱 Currency System
+
+Base Currency
+
+All transaction amounts are stored in INR (Indian Rupees) in the database
+
+This is the base currency for all calculations
+
+Users can view amounts in any supported currency via the UI
+
+Supported Currencies
+
+INR (₹) - Indian Rupee - Base currency (rate: 1.0)
+
+USD ($) - US Dollar - Rate: 0.012
+
+EUR (€) - Euro - Rate: 0.011
+
+GBP (£) - British Pound - Rate: 0.0095
+
+JPY (¥) - Japanese Yen - Rate: 1.85
+
+Currency Selection
+
+Click the Globe icon in the navigation bar to access the currency selector
+
+Select your preferred currency from the dropdown menu
+
+Your selection is saved in browser localStorage and persists across sessions
+
+All monetary values throughout the app update instantly
+
+Conversion Logic
+
+All conversions happen client-side using the rates defined in src/contexts/CurrencyContext.tsx
+
+The conversion formula: displayed_amount = stored_amount × conversion_rate
+
+For example: 1000 INR × 0.012 = $12.00
+
+Updating Conversion Rates
+
+To update currency conversion rates:
+
+Open src/contexts/CurrencyContext.tsx
+
+Locate the CONVERSION_RATES object
+
+Update the rates as needed:
+
+export const CONVERSION_RATES: Record<string, number> = {
+  INR: 1,        // Base currency - always 1
+  USD: 0.012,    // Update this value
+  EUR: 0.011,    // Update this value
+  GBP: 0.0095,   // Update this value
+  JPY: 1.85,     // Update this value
+};
+
+
+The rates are relative to INR (base = 1.0)
+
+All amounts in the database remain in INR
+
+Only the display conversion changes
+
+Adding New Currencies
+
+To add support for additional currencies:
+
+Add the currency to the CURRENCIES array in src/contexts/CurrencyContext.tsx:
+
+export const CURRENCIES: Currency[] = [
+  // ... existing currencies
+  { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar' },
+];
+
+
+Add its conversion rate to CONVERSION_RATES:
+
+export const CONVERSION_RATES: Record<string, number> = {
+  // ... existing rates
+  CAD: 0.016,  // Rate relative to INR
+};
+
+
+The currency will automatically appear in the selector
+
+Notes on Currency Display
+
+Amounts are formatted with the appropriate currency symbol
+
+Most currencies show 2 decimal places (e.g., $12.00)
+
+Japanese Yen (JPY) shows no decimal places (e.g., ¥1,850)
+
+Thousands separators are added for readability
