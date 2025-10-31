@@ -84,6 +84,20 @@ Instant visual feedback when changing currency
 
 All amounts displayed in selected currency throughout the app
 
+📱 Progressive Web App (PWA)
+
+Install the app on any device (desktop, tablet, mobile)
+
+Works offline with intelligent caching
+
+Automatic background updates
+
+One-click installation with friendly prompts
+
+Offline-capable with local data access
+
+Installable via home screen shortcut (iOS/Android)
+
 🧩 Tech Stack
 Layer	Technologies
 Frontend	React 18, TypeScript
@@ -93,6 +107,7 @@ Authentication	Supabase Auth
 Charts	Recharts
 PDF Generation	jsPDF
 Build Tool	Vite
+PWA Framework	vite-plugin-pwa, Workbox
 Icons	Lucide React
 ⚙️ Prerequisites
 
@@ -265,7 +280,10 @@ Secure Defaults: No unauthenticated data exposure
 npm run build
 
 
-The optimized build will be generated in the dist/ directory.
+The optimized build will be generated in the dist/ directory, including:
+- Service worker (`dist/sw.js`) for offline support
+- Web app manifest (`dist/manifest.webmanifest`)
+- Optimized PWA assets and caching strategies
 
 🌐 Deployment
 ⚛️ Frontend
@@ -382,3 +400,34 @@ Most currencies show 2 decimal places (e.g., $12.00)
 Japanese Yen (JPY) shows no decimal places (e.g., ¥1,850)
 
 Thousands separators are added for readability
+
+📱 PWA Installation & Offline
+
+For complete PWA configuration and offline capabilities, see PWA_SETUP.md
+
+Quick Start:
+1. The app will show an "Install App" prompt on first visit
+2. Click "Install" on the Dashboard for manual installation
+3. Works fully offline with cached data
+4. Automatic background updates
+
+Install Prompts
+
+Auto-Popup: Shows 2 seconds after first page load
+Dashboard Button: Always available when installable
+Smart Dismissal: Remembers user preferences
+Toast Notifications: Confirms installation success
+
+Offline Capabilities
+
+View cached transactions and balances
+Access analytics and reports
+Browse categories and history
+Automatic sync on reconnect
+
+Service Worker Features
+
+Network First (APIs): Prioritizes fresh data
+Cache First (Assets): Fast asset loading
+Stale While Revalidate (Pages): Quick response with background updates
+Automatic cache cleanup

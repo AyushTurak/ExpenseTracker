@@ -3,6 +3,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { CurrencyProvider } from './contexts/CurrencyContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { InstallPrompt } from './components/pwa/InstallPrompt';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
 import { MainLayout } from './components/layout/MainLayout';
 import { Login } from './components/auth/Login';
@@ -30,6 +31,7 @@ function App() {
         <AuthProvider>
           <ToastProvider>
             <CurrencyProvider>
+              <InstallPrompt />
               <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/features" element={<Features />} />
