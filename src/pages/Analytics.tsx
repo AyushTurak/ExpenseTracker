@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { analyticsService, MonthlyData, CategoryBreakdown } from '../services/analyticsService';
 import { useToast } from '../contexts/ToastContext';
 import { useCurrency } from '../contexts/CurrencyContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { Loader } from '../components/ui/Loader';
 import { Select } from '../components/ui/Select';
 import { LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -17,6 +18,12 @@ export const Analytics = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { showToast } = useToast();
   const { formatCurrency } = useCurrency();
+  const { theme } = useTheme();
+
+  const chartGridColor = theme === 'dark' ? '#374151' : '#E5E7EB';
+  const chartTextColor = theme === 'dark' ? '#9CA3AF' : '#6B7280';
+  const chartTooltipBg = theme === 'dark' ? '#1F2937' : '#FFFFFF';
+  const chartTooltipText = theme === 'dark' ? '#F3F4F6' : '#1F2937';
 
   useEffect(() => {
     loadAnalytics();
@@ -64,8 +71,8 @@ export const Analytics = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-        <p className="text-gray-600 mt-1">Visualize your financial trends</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Analytics</h1>
+        <p className="text-gray-600 dark:text-gray-400 mt-1">Visualize your financial trends</p>
       </div>
 
       <div className="flex flex-wrap gap-4">
@@ -96,55 +103,60 @@ export const Analytics = () => {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-3 mb-2">
-                <div className="bg-green-100 p-2 rounded-lg">
-                  <TrendingUp className="w-5 h-5 text-green-600" />
+                <div className="bg-green-100 dark:bg-green-900 p-2 rounded-lg">
+                  <TrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-sm font-medium text-gray-600">Total Income ({year})</h3>
+                <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Income ({year})</h3>
               </div>
-              <p className="text-2xl font-bold text-green-600">
+              <p className="text-2xl font-bold text-green-600 dark:text-green-400">
                 {formatCurrency(totalIncome)}
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-3 mb-2">
-                <div className="bg-red-100 p-2 rounded-lg">
-                  <TrendingDown className="w-5 h-5 text-red-600" />
+                <div className="bg-red-100 dark:bg-red-900 p-2 rounded-lg">
+                  <TrendingDown className="w-5 h-5 text-red-600 dark:text-red-400" />
                 </div>
-                <h3 className="text-sm font-medium text-gray-600">Total Expenses ({year})</h3>
+                <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Expenses ({year})</h3>
               </div>
-              <p className="text-2xl font-bold text-red-600">
+              <p className="text-2xl font-bold text-red-600 dark:text-red-400">
                 {formatCurrency(totalExpense)}
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-3 mb-2">
-                <div className={`p-2 rounded-lg ${netSavings >= 0 ? 'bg-blue-100' : 'bg-orange-100'}`}>
-                  <TrendingUp className={`w-5 h-5 ${netSavings >= 0 ? 'text-blue-600' : 'text-orange-600'}`} />
+                <div className={`p-2 rounded-lg ${netSavings >= 0 ? 'bg-blue-100 dark:bg-blue-900' : 'bg-orange-100 dark:bg-orange-900'}`}>
+                  <TrendingUp className={`w-5 h-5 ${netSavings >= 0 ? 'text-blue-600 dark:text-blue-400' : 'text-orange-600 dark:text-orange-400'}`} />
                 </div>
-                <h3 className="text-sm font-medium text-gray-600">Net Savings ({year})</h3>
+                <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">Net Savings ({year})</h3>
               </div>
-              <p className={`text-2xl font-bold ${netSavings >= 0 ? 'text-blue-600' : 'text-orange-600'}`}>
+              <p className={`text-2xl font-bold ${netSavings >= 0 ? 'text-blue-600 dark:text-blue-400' : 'text-orange-600 dark:text-orange-400'}`}>
                 {formatCurrency(netSavings)}
               </p>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
               Income vs Expenses ({year})
             </h2>
             <ResponsiveContainer width="100%" height={400}>
               <LineChart data={monthlyData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
+                <CartesianGrid stroke={chartGridColor} strokeDasharray="3 3" />
+                <XAxis dataKey="month" stroke={chartTextColor} />
+                <YAxis stroke={chartTextColor} />
                 <Tooltip
                   formatter={(value: number) => formatCurrency(value)}
-                  contentStyle={{ borderRadius: '8px' }}
+                  contentStyle={{
+                    borderRadius: '8px',
+                    backgroundColor: chartTooltipBg,
+                    color: chartTooltipText,
+                    border: 'none',
+                  }}
                 />
                 <Legend />
                 <Line
@@ -167,13 +179,13 @@ export const Analytics = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
               Category Breakdown - {monthOptions.find(m => m.value === month.toString())?.label} {year}
             </h2>
 
             {categoryBreakdown.length === 0 ? (
-              <p className="text-center text-gray-500 py-12">
+              <p className="text-center text-gray-500 dark:text-gray-400 py-12">
                 No {breakdownType} data for this period
               </p>
             ) : (
@@ -195,7 +207,12 @@ export const Analytics = () => {
                     </Pie>
                     <Tooltip
                       formatter={(value: number) => formatCurrency(value)}
-                      contentStyle={{ borderRadius: '8px' }}
+                      contentStyle={{
+                        borderRadius: '8px',
+                        backgroundColor: chartTooltipBg,
+                        color: chartTooltipText,
+                        border: 'none',
+                      }}
                     />
                   </PieChart>
                 </ResponsiveContainer>
@@ -204,20 +221,20 @@ export const Analytics = () => {
                   {categoryBreakdown.map((item, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                      className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
                     >
                       <div className="flex items-center gap-3">
                         <div
                           className="w-4 h-4 rounded-full"
                           style={{ backgroundColor: item.categoryColor }}
                         />
-                        <span className="font-medium text-gray-900">{item.categoryName}</span>
+                        <span className="font-medium text-gray-900 dark:text-white">{item.categoryName}</span>
                       </div>
                       <div className="text-right">
-                        <p className="font-semibold text-gray-900">
+                        <p className="font-semibold text-gray-900 dark:text-white">
                           {formatCurrency(item.total)}
                         </p>
-                        <p className="text-sm text-gray-500">{item.percentage.toFixed(1)}%</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{item.percentage.toFixed(1)}%</p>
                       </div>
                     </div>
                   ))}
