@@ -140,7 +140,7 @@ export const Dashboard = () => {
             <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Recent Transactions</h2>
               <Link
-                to="/transactions"
+                to="/app/transactions"
                 className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium flex items-center gap-1"
               >
                 View All
