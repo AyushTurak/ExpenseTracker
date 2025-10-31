@@ -23,12 +23,13 @@ export const QuickAddTransaction = ({ onSuccess }: QuickAddTransactionProps) => 
 
   useEffect(() => {
     loadCategories();
-  }, []);
+  }, [type]);
 
   const loadCategories = async () => {
     try {
-      const data = await categoryService.getCategories();
+      const data = await categoryService.getCategories(type);
       setCategories(data);
+      setCategoryId('');
       if (data.length > 0) {
         setCategoryId(data[0].id);
       }
