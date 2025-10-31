@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { transactionService } from '../services/transactionService';
 import { useToast } from '../contexts/ToastContext';
 import { useCurrency } from '../contexts/CurrencyContext';
+import { useInstallPrompt } from '../hooks/useInstallPrompt';
 import { formatDate } from '../utils/formatters';
 import { Loader } from '../components/ui/Loader';
-import { TrendingUp, TrendingDown, Wallet, Receipt, ArrowRight } from 'lucide-react';
+import { TrendingUp, TrendingDown, Wallet, Receipt, ArrowRight, Download } from 'lucide-react';
 import { QuickAddTransaction } from '../components/dashboard/QuickAddTransaction';
 
 interface Summary {
@@ -21,6 +22,15 @@ export const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { showToast } = useToast();
   const { formatCurrency } = useCurrency();
+  const { isInstallable, isInstalled, showPrompt } = useInstallPrompt();
+
+  const handleInstallClick = async () => {
+    try {
+      await showPrompt();
+    } catch (error) {
+      console.error('Install failed:', error);
+    }
+  };
 
   const loadData = async () => {
     setIsLoading(true);
@@ -57,9 +67,21 @@ export const Dashboard = () => {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-        <p className="text-gray-600 dark:text-gray-400 mt-1">Overview of your finances this month</p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Overview of your finances this month</p>
+        </div>
+
+        {isInstallable && !isInstalled && (
+          <button
+            onClick={handleInstallClick}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm whitespace-nowrap"
+          >
+            <Download size={18} />
+            Install App
+          </button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
