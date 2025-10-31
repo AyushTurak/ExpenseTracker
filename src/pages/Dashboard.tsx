@@ -8,6 +8,7 @@ import { formatDate } from '../utils/formatters';
 import { Loader } from '../components/ui/Loader';
 import { TrendingUp, TrendingDown, Wallet, Receipt, ArrowRight, Download } from 'lucide-react';
 import { QuickAddTransaction } from '../components/dashboard/QuickAddTransaction';
+import { supabase } from '../lib/supabase';
 
 interface Summary {
   totalIncome: number;
@@ -55,6 +56,25 @@ export const Dashboard = () => {
 
   useEffect(() => {
     loadData();
+
+    const channel = supabase
+      .channel('transactions-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'transactions',
+        },
+        () => {
+          loadData();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   if (isLoading) {
