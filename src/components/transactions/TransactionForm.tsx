@@ -88,7 +88,7 @@ export const TransactionForm = ({ transaction, onSuccess, onCancel }: Transactio
           type="number"
           label="Amount"
           placeholder="0.00"
-          step="0.01"
+          step="1.0"
           min="0"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
