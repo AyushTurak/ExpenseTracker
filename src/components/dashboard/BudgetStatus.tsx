@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { budgetService, type BudgetStatus } from '../../services/budgetService';
 import { useCurrency } from '../../contexts/CurrencyContext';
 import { useToast } from '../../contexts/ToastContext';
-import { AlertCircle, TrendingUp } from 'lucide-react';
+import { AlertCircle, TrendingUp, Settings } from 'lucide-react';
 
 export const BudgetStatusCard = () => {
   const [budgetStatus, setBudgetStatus] = useState<BudgetStatus | null>(null);
@@ -40,16 +41,25 @@ export const BudgetStatusCard = () => {
   if (!budgetStatus) {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <div className="flex items-start gap-3">
-          <TrendingUp className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1" />
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-              Budget Tracking
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              No budget set yet. Configure your monthly budget to get started with alerts.
-            </p>
+        <div className="flex items-start justify-between">
+          <div className="flex items-start gap-3 flex-1">
+            <TrendingUp className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1" />
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                Budget Tracking
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                No budget set yet. Configure your monthly budget to get started with alerts.
+              </p>
+            </div>
           </div>
+          <Link
+            to="/app/settings"
+            className="ml-4 flex-shrink-0 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-2 font-medium text-sm whitespace-nowrap"
+          >
+            <Settings size={16} />
+            Set Budget
+          </Link>
         </div>
       </div>
     );
@@ -83,15 +93,24 @@ export const BudgetStatusCard = () => {
             {isCritical ? 'Budget Alert!' : isWarning ? 'Budget Warning' : 'Monthly Budget'}
           </h3>
         </div>
-        <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-          isCritical
-            ? 'bg-red-200 dark:bg-red-800 text-red-900 dark:text-red-200'
-            : isWarning
-              ? 'bg-yellow-200 dark:bg-yellow-800 text-yellow-900 dark:text-yellow-200'
-              : 'bg-green-200 dark:bg-green-800 text-green-900 dark:text-green-200'
-        }`}>
-          {budgetStatus.percentage_used.toFixed(1)}%
-        </span>
+        <div className="flex items-center gap-3">
+          <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+            isCritical
+              ? 'bg-red-200 dark:bg-red-800 text-red-900 dark:text-red-200'
+              : isWarning
+                ? 'bg-yellow-200 dark:bg-yellow-800 text-yellow-900 dark:text-yellow-200'
+                : 'bg-green-200 dark:bg-green-800 text-green-900 dark:text-green-200'
+          }`}>
+            {budgetStatus.percentage_used.toFixed(1)}%
+          </span>
+          <Link
+            to="/app/settings"
+            className="px-2 py-1 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            title="Edit budget settings"
+          >
+            <Settings size={18} />
+          </Link>
+        </div>
       </div>
 
       <div className="space-y-3">
