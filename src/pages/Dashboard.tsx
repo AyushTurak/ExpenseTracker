@@ -8,6 +8,7 @@ import { formatDate } from '../utils/formatters';
 import { Loader } from '../components/ui/Loader';
 import { TrendingUp, TrendingDown, Wallet, Receipt, ArrowRight, Download } from 'lucide-react';
 import { QuickAddTransaction } from '../components/dashboard/QuickAddTransaction';
+import { BudgetStatusCard } from '../components/dashboard/BudgetStatus';
 import { supabase } from '../lib/supabase';
 
 interface Summary {
@@ -155,7 +156,9 @@ export const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-8">
+          <BudgetStatusCard />
+
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Recent Transactions</h2>
