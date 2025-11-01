@@ -116,7 +116,8 @@ export const transactionService = {
 
     if (month && year) {
       const startDate = `${year}-${month.padStart(2, '0')}-01`;
-      const endDate = new Date(parseInt(year), parseInt(month), 0).toISOString().split('T')[0];
+      const lastDay = new Date(parseInt(year), parseInt(month), 0).getDate();
+      const endDate = `${year}-${month.padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
       query = query.gte('date', startDate).lte('date', endDate);
     }
 

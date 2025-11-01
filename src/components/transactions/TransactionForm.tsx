@@ -25,12 +25,15 @@ export const TransactionForm = ({ transaction, onSuccess, onCancel }: Transactio
 
   useEffect(() => {
     loadCategories();
-  }, []);
+  }, [type]);
 
   const loadCategories = async () => {
     try {
-      const data = await categoryService.getCategories();
+      const data = await categoryService.getCategories(type);
       setCategories(data);
+      if (!transaction && data.length > 0) {
+        setCategoryId(data[0].id);
+      }
     } catch (error: any) {
       showToast(error.message || 'Failed to load categories', 'error');
     }

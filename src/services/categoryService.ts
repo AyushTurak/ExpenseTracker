@@ -6,11 +6,16 @@ type CategoryInsert = Database['public']['Tables']['categories']['Insert'];
 type CategoryUpdate = Database['public']['Tables']['categories']['Update'];
 
 export const categoryService = {
-  async getCategories() {
-    const { data, error } = await supabase
+  async getCategories(type?: 'income' | 'expense') {
+    let query = supabase
       .from('categories')
-      .select('*')
-      .order('name');
+      .select('*');
+
+    if (type) {
+      query = query.eq('type', type);
+    }
+
+    const { data, error } = await query.order('name');
 
     if (error) throw error;
     return data as Category[];
